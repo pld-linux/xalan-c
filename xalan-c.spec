@@ -14,7 +14,7 @@ Source0:	http://xml.apache.org/dist/xalan-c/Xalan-C_%{ver}-linux.tar.gz
 Source1:	http://oss.software.ibm.com/developerworks/opensource/icu/project/download/%{icuver}/icu-%{icuver}.tgz
 # Source1-md5:	38f699d58c9491cb34d119d38695c04c
 Patch0:		%{name}-xerces_ver.patch
-URL:		http://xml.apache.org
+URL:		http://xml.apache.org/
 BuildRequires:	autoconf
 BuildRequires:	xerces-c
 # Needs "tr".
