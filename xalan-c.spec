@@ -1,5 +1,5 @@
 Summary:	XML parser
-Summary(pl):	Parser XML
+Summary(pl):	Analizator sk³adniowy XML-a
 Name:		xalan-c
 Version:	1.2
 %define	ver	1_2
@@ -25,19 +25,19 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 XML parser.
 
 %description -l pl
-Parser XML.
+Analizator sk³adniowy XML-a.
 
 %package devel
-Summary:	%{name} header files
-Summary(pl):	Pliki nag³ówkowe %{name}
+Summary:	xalan-c header files
+Summary(pl):	Pliki nag³ówkowe xalan-c
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
 
 %description devel
-Header files.
+xalan-c header files.
 
 %description devel -l pl
-Pliki nag³ówkowe.
+Pliki nag³ówkowe xalan-c.
 
 %package docs
 Summary:	Documentation for xalan-c
