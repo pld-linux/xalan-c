@@ -78,8 +78,8 @@ chmod 755 runConfigure
 rm -rf $RPM_BUILD_ROOT
 cd c/src
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_libdir}
-install -d $RPM_BUILD_ROOT/%{_includedir}
+install -d $RPM_BUILD_ROOT%{_libdir}
+install -d $RPM_BUILD_ROOT%{_includedir}
 
 # Only one file?
 cp -a ../../lib/* $RPM_BUILD_ROOT%{_libdir}
@@ -90,7 +90,7 @@ cp -a Include/* $RPM_BUILD_ROOT%{_includedir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
+%post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
