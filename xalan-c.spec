@@ -73,6 +73,7 @@ chmod 755 runConfigure
 %{__make} XERCES_VER=`rpm -q xerces-c --qf '%%{version}' | tr . _`
 
 %install
+rm -rf $RPM_BUILD_ROOT
 cd c/src
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_libdir}
