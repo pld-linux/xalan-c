@@ -10,7 +10,9 @@ License:	GPL
 Group:		Applications/Publishing/XML
 #Source0:	http://xml.apache.org/dist/xerces-c/stable/Xalan-C_%{ver}-linux.tar.gz
 Source0:	http://xml.apache.org/dist/xalan-c/Xalan-C_%{ver}-linux.tar.gz
+# Source0-md5:	021c981373d7a28a8420c2462dbc4ebb
 Source1:	http://oss.software.ibm.com/developerworks/opensource/icu/project/download/%{icuver}/icu-%{icuver}.tgz
+# Source1-md5:	38f699d58c9491cb34d119d38695c04c
 Patch0:		%{name}-xerces_ver.patch
 URL:		http://xml.apache.org
 BuildRequires:	autoconf
