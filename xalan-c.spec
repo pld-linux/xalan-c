@@ -75,7 +75,7 @@ rm -rf ../xerces-c1_5_1-linux
 cd c/src
 #chmod 755 configure config.{guess,status,sub}
 
-## Just another s??t!!!
+## Just another shit!!!
 
 export XALANCROOT=`cd ../.. ; pwd`
 export XERCESCROOT="%{_includedir}"
