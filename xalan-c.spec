@@ -22,8 +22,10 @@ BuildRequires:	textutils
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
+XML parser.
 
 %description -l pl
+Parser XML.
 
 %package devel
 Summary:	%{name} header files
@@ -41,7 +43,7 @@ Requires:	%{name} = %{version}
 %description devel
 Header files.
 
-%description -l pl devel
+%description devel -l pl
 Pliki nag³ówkowe.
 
 %package docs
@@ -60,7 +62,7 @@ Requires:	%{name} = %{version}
 %description docs
 Documentation for xalan-c.
 
-%description -l pl docs
+%description docs -l pl
 Dokumentacja xalan-c.
 
 %prep
