@@ -8,8 +8,6 @@ Version:	1.2
 Release:	1
 License:	GPL
 Group:		Applications/Publishing/XML
-Group(de):	Applikationen/Publizieren/XML
-Group(pl):	Aplikacje/Publikowanie/XML
 #Source0:	http://xml.apache.org/dist/xerces-c/stable/Xalan-C_%{ver}-linux.tar.gz
 Source0:	http://xml.apache.org/dist/xalan-c/Xalan-C_%{ver}-linux.tar.gz
 Source1:	http://oss.software.ibm.com/developerworks/opensource/icu/project/download/%{icuver}/icu-%{icuver}.tgz
@@ -31,13 +29,6 @@ Parser XML.
 Summary:	%{name} header files
 Summary(pl):	Pliki nagЁСwkowe %{name}
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description devel
@@ -50,13 +41,6 @@ Pliki nagЁСwkowe.
 Summary:	Documentation for xalan-c
 Summary(pl):	Dokumentacja xlan-c
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description docs
