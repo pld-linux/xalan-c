@@ -1,0 +1,15 @@
+diff -urN xml-xalan.orig/c/src/Makefile.in xml-xalan/c/src/Makefile.in
+--- xml-xalan.orig/c/src/Makefile.in	Tue Aug 14 22:55:18 2001
++++ xml-xalan/c/src/Makefile.in	Fri Nov  2 00:01:21 2001
+@@ -305,9 +305,9 @@
+ 
+ # We need the Xerces library
+ ifeq ($(PLATFORM), OS390)                             
+-ALLLIBS += $(XERCESCROOT)/lib/libxerces-c1_5_1.x
++ALLLIBS += $(XERCESCROOT)/lib/libxerces-c$(XERCES_VER).x
+ else                                                  
+-ALLLIBS += -L$(XERCESCROOT)/lib -lxerces-c1_5_1
++ALLLIBS += -L$(XERCESCROOT)/lib -lxerces-c$(XERCES_VER)
+ endif
+ 
+ # We need the ICU library if we are using the ICUBridge
