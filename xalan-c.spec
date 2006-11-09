@@ -1,10 +1,10 @@
+%define	ver	1_2
+%define	mainver	1_2
+%define icuver	1.6
 Summary:	XML parser
 Summary(pl):	Analizator sk³adniowy XML-a
 Name:		xalan-c
 Version:	1.2
-%define	ver	1_2
-%define	mainver	1_2
-%define icuver	1.6
 Release:	1
 License:	GPL
 Group:		Applications/Publishing/XML
@@ -18,7 +18,6 @@ URL:		http://xml.apache.org/
 BuildRequires:	autoconf
 BuildRequires:	xerces-c
 # Needs "tr".
-BuildRequires:	textutils
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -31,7 +30,7 @@ Analizator sk³adniowy XML-a.
 Summary:	xalan-c header files
 Summary(pl):	Pliki nag³ówkowe xalan-c
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 xalan-c header files.
@@ -43,7 +42,7 @@ Pliki nag³ówkowe xalan-c.
 Summary:	Documentation for xalan-c
 Summary(pl):	Dokumentacja xlan-c
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description docs
 Documentation for xalan-c.
