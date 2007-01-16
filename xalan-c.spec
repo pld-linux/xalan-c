@@ -52,8 +52,15 @@ Dokumentacja xalan-c.
 %patch0 -p1
 # Binaries provided with sources.
 rm -rf c/{bin,lib}/*
+
 # We don't need it, so why waste space?
-rm -rf ../xerces-c1_5_1-linux
+# XXX removing files outside our build root!?
+#rm -r ../xerces-c1_5_1-linux
+
+# for gcc on ac
+sed -i -e 's/-instances=static//' c/src/Makefile.in
+# add xerces includes
+sed -i -e 's,^XSL_INCL =.*,& -I/usr/include/xercesc/sax' c/src/Makefile.in
 
 %build
 cd c/src
@@ -66,9 +73,26 @@ export XERCESCROOT="%{_includedir}"
 #autoconf
 #CPPFLAGS="-Iinclude"
 #export CPPFLAGS
-chmod 755 runConfigure
-./runConfigure -plinux -cgcc -xg++ -minmem -nfileonly -tnative
-%{__make} XERCES_VER=`rpm -q xerces-c --qf '%%{version}' | tr . _`
+#chmod 755 runConfigure
+#./runConfigure \
+#	-plinux \
+#	-c"%{__cc}" \
+#	-x"%{__cxx}" \
+#	-minmem # gone\
+#	-nfileonly # gone\
+#	-tnative # gone
+
+
+%{__make} \
+	LIBS="-lpthread" \
+	LDFLAGS="%{rpmcflags}" \
+	CXXFLAGS="%{rpmcxxflags}" \
+	CPPFLAGS=/usr/include/xercesc/sax \
+	CC="%{__cc}" \
+	CXX="%{__cxx}" \
+	ICUROOT=/usr \
+	XALAN_USE_ICU=1 \
+	XERCES_VER=%(rpm -q xerces-c --qf '%%{version}' | tr . _)
 
 %install
 rm -rf $RPM_BUILD_ROOT
