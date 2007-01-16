@@ -23,7 +23,10 @@ dedicated to providing robust, full-featured, commercial-quality, and
 freely available XSLT support on a wide variety of platforms.
 
 %description -l pl
-Analizator sk³adniowy XML-a.
+Projekt Apache Xalan to wspólny projekt stworzenia oprogramowania
+maj±cego zapewnic potê¿n±, w pe³ni funkcjonaln±, maj±c± komercyjn±
+jako¶æ i jednocze¶nie wolnodostêpn± obs³ugê XSLT na szerokim zakresie
+platform.
 
 %package devel
 Summary:	xalan-c header files
@@ -98,6 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+# FIXME: more verbose
 %attr(755,root,root) %{_libdir}/*
 
 %files devel
