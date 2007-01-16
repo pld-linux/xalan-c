@@ -1,3 +1,5 @@
+# TODO
+# - buildfail: /usr/bin/ld: cannot find -lxalan-c
 %define		_ver	%(echo %{version} | tr . _)
 Summary:	XML parser
 Summary(pl):	Analizator sk³adniowy XML-a
@@ -8,9 +10,9 @@ License:	Apache License, Version 2.0
 Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
 # Source0-md5:	0a3fbb535885531cc544b07a2060bfb1
-Patch0:	%{name}-getopt.patch
+Patch0:		%{name}-getopt.patch
 URL:		http://xalan.apache.org/
-BuildRequires:	autoconf
+BuildRequires:	libicu-devel
 BuildRequires:	util-linux
 BuildRequires:	xerces-c >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -55,44 +57,30 @@ Dokumentacja xalan-c.
 cd c
 export XALANCROOT=$(pwd)
 export XERCESROOT=/usr
+export ICUROOT=/usr
+export XALAN_USE_ICU=true
 
-%if 1
 ./runConfigure \
 	-p linux \
 	-c "%{__cc}" \
 	-x "%{__cxx}" \
-	-minmem
+%ifarch %{x8664}
+	-b 64 \
+%else
+	-b 32 \
+%endif
+	-t icu \
+	-m icu
 
 %{__make}
-%endif
-
-# passes CC correctly but broken
-%if 0
-%ifarch %{x8664}
-CXXFLAGS=-DXML_BITSTOBUILD_64
-CFLAGS=-DXML_BITSTOBUILD_64
-BITSTOBUILD=64
-%else
-BITSTOBUILD=32
-%endif
-%configure
-%{__make} \
-	LIBS="-lpthread" \
-	LDFLAGS="%{rpmcflags}" \
-	CXXFLAGS="%{rpmcxxflags} $CXXFLAGS" \
-	CFLAGS="%{rpmcxxflags} $CFLAGS" \
-	CC="%{__cc}" \
-	CXX="%{__cxx}" \
-	XALAN_LOCALE_SYSTEM=inmem \
-	XALAN_LOCALE=en_US \
-	BITSTOBUILD=$BITSTOBUILD \
-	TRANSCODER= \
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd c/src
-rm -rf $RPM_BUILD_ROOT
+cd c
+
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+exit 1
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
 
