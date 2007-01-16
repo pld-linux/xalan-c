@@ -14,7 +14,7 @@ Patch0:		%{name}-getopt.patch
 URL:		http://xalan.apache.org/
 BuildRequires:	libicu-devel
 BuildRequires:	util-linux
-BuildRequires:	xerces-c >= 2.7.0
+BuildRequires:	xerces-c-devel >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
