@@ -1,24 +1,24 @@
-%define	ver	1_2
-%define	mainver	1_2
+%define		_ver	%(echo %{version} | tr . _)
 Summary:	XML parser
 Summary(pl):	Analizator sk³adniowy XML-a
 Name:		xalan-c
-Version:	1.2
-Release:	1
-License:	GPL
+Version:	1.10.0
+Release:	0.1
+License:	Apache License, Version 2.0
 Group:		Applications/Publishing/XML
-#Source0:	http://xml.apache.org/dist/xerces-c/stable/Xalan-C_%{ver}-linux.tar.gz
-Source0:	http://xml.apache.org/dist/xalan-c/Xalan-C_%{ver}-linux.tar.gz
-# Source0-md5:	021c981373d7a28a8420c2462dbc4ebb
-Patch0:		%{name}-xerces_ver.patch
-URL:		http://xml.apache.org/
+Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
+# Source0-md5:	0a3fbb535885531cc544b07a2060bfb1
+Patch0:	%{name}-getopt.patch
+URL:		http://xalan.apache.org/
 BuildRequires:	autoconf
-BuildRequires:	xerces-c
-# Needs "tr".
+BuildRequires:	util-linux
+BuildRequires:	xerces-c >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-XML parser.
+Apache Xalan Project is a collaborative software development project
+dedicated to providing robust, full-featured, commercial-quality, and
+freely available XSLT support on a wide variety of platforms.
 
 %description -l pl
 Analizator sk³adniowy XML-a.
@@ -50,49 +50,44 @@ Dokumentacja xalan-c.
 %prep
 %setup -q -n xml-xalan
 %patch0 -p1
-# Binaries provided with sources.
-rm -rf c/{bin,lib}/*
-
-# We don't need it, so why waste space?
-# XXX removing files outside our build root!?
-#rm -r ../xerces-c1_5_1-linux
-
-# for gcc on ac
-sed -i -e 's/-instances=static//' c/src/Makefile.in
-# add xerces includes
-sed -i -e 's,^XSL_INCL =.*,& -I/usr/include/xercesc/sax' c/src/Makefile.in
 
 %build
-cd c/src
-#chmod 755 configure config.{guess,status,sub}
+cd c
+export XALANCROOT=$(pwd)
+export XERCESROOT=/usr
 
-## Just another shit!!!
+%if 1
+./runConfigure \
+	-p linux \
+	-c "%{__cc}" \
+	-x "%{__cxx}" \
+	-minmem
 
-export XALANCROOT=`cd ../.. ; pwd`
-export XERCESCROOT="%{_includedir}"
-#autoconf
-#CPPFLAGS="-Iinclude"
-#export CPPFLAGS
-#chmod 755 runConfigure
-#./runConfigure \
-#	-plinux \
-#	-c"%{__cc}" \
-#	-x"%{__cxx}" \
-#	-minmem # gone\
-#	-nfileonly # gone\
-#	-tnative # gone
+%{__make}
+%endif
 
-
+# passes CC correctly but broken
+%if 0
+%ifarch %{x8664}
+CXXFLAGS=-DXML_BITSTOBUILD_64
+CFLAGS=-DXML_BITSTOBUILD_64
+BITSTOBUILD=64
+%else
+BITSTOBUILD=32
+%endif
+%configure
 %{__make} \
 	LIBS="-lpthread" \
 	LDFLAGS="%{rpmcflags}" \
-	CXXFLAGS="%{rpmcxxflags}" \
-	CPPFLAGS=/usr/include/xercesc/sax \
+	CXXFLAGS="%{rpmcxxflags} $CXXFLAGS" \
+	CFLAGS="%{rpmcxxflags} $CFLAGS" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
-	ICUROOT=/usr \
-	XALAN_USE_ICU=1 \
-	XERCES_VER=%(rpm -q xerces-c --qf '%%{version}' | tr . _)
+	XALAN_LOCALE_SYSTEM=inmem \
+	XALAN_LOCALE=en_US \
+	BITSTOBUILD=$BITSTOBUILD \
+	TRANSCODER= \
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
