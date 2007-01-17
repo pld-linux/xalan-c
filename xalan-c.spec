@@ -1,11 +1,10 @@
-# TODO
-# - buildfail: /usr/bin/ld: cannot find -lxalan-c
+#
 %define		_ver	%(echo %{version} | tr . _)
 Summary:	XML parser
 Summary(pl):	Analizator sk³adniowy XML-a
 Name:		xalan-c
 Version:	1.10.0
-Release:	0.1
+Release:	0.2
 License:	Apache License, Version 2.0
 Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
@@ -65,6 +64,7 @@ export ICUROOT=/usr
 export XALAN_USE_ICU=true
 
 ./runConfigure \
+	-P /usr \
 	-p linux \
 	-c "%{__cc}" \
 	-x "%{__cxx}" \
@@ -82,18 +82,14 @@ export XALAN_USE_ICU=true
 rm -rf $RPM_BUILD_ROOT
 cd c
 export XALANCROOT=$(pwd)
+export XERCESROOT=/usr
+export ICUROOT=/usr
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
-
-# Only one file?
-cp -a ../../lib/* $RPM_BUILD_ROOT%{_libdir}
-
-# I put all stuff from that dir, maybe some can be omitted
-cp -a Include/* $RPM_BUILD_ROOT%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -103,14 +99,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-# FIXME: more verbose
-%attr(755,root,root) %{_libdir}/*
+%attr(755,root,root) %{_bindir}/Xalan
+%attr(755,root,root) %{_libdir}/libxalan*
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/*
-#%%{_libdir}/*.so
+%{_includedir}/xalanc
 
 %files docs
 %defattr(644,root,root,755)
-%doc c/docs c/samples
+%doc c/xdocs c/samples
