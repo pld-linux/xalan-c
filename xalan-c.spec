@@ -76,7 +76,8 @@ export XALAN_USE_ICU=true
 	-t icu \
 	-m icu
 
-%{__make}
+# tries to link testXSLT before libxalan-c.so symlink is created
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
