@@ -4,7 +4,7 @@ Summary:	XML parser
 Summary(pl):	Analizator sk³adniowy XML-a
 Name:		xalan-c
 Version:	1.10.0
-Release:	0.2
+Release:	0.3
 License:	Apache License, Version 2.0
 Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
@@ -16,6 +16,8 @@ BuildRequires:	libicu-devel
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_noautoreq	libxalanMsg.so
 
 %description
 Apache Xalan Project is a collaborative software development project
@@ -103,11 +105,15 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/Xalan
-%attr(755,root,root) %{_libdir}/libxalan*
+%attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
+%attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
+# Xalan links directly with it, and with that soname
+%attr(755,root,root) %{_libdir}/libxalanMsg.so
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/xalanc
+%attr(755,root,root) %{_libdir}/libxalan-c.so
 
 %files docs
 %defattr(644,root,root,755)
