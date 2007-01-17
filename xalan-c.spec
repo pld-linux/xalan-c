@@ -56,6 +56,8 @@ Dokumentacja xalan-c.
 %setup -q -n xml-xalan
 %patch0 -p1
 
+rm -rf c/{xdocs,samples}/CVS
+
 %build
 cd c
 export XALANCROOT=$(pwd)
