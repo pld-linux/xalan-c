@@ -81,10 +81,11 @@ export XALAN_USE_ICU=true
 %install
 rm -rf $RPM_BUILD_ROOT
 cd c
+export XALANCROOT=$(pwd)
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-exit 1
+
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
 
