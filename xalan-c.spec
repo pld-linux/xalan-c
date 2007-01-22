@@ -10,14 +10,13 @@ Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
 # Source0-md5:	0a3fbb535885531cc544b07a2060bfb1
 Patch0:		%{name}-getopt.patch
+Patch1:		%{name}-soname.patch
 URL:		http://xalan.apache.org/
 BuildRequires:	icu
 BuildRequires:	libicu-devel
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_noautoreq	libxalanMsg.so
 
 %description
 Apache Xalan Project is a collaborative software development project
@@ -57,6 +56,7 @@ Dokumentacja xalan-c.
 %prep
 %setup -q -n xml-xalan
 %patch0 -p1
+%patch1 -p1
 
 rm -rf c/{xdocs,samples}/CVS
 
@@ -107,13 +107,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/Xalan
 %attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
-# Xalan links directly with it, and with that soname
-%attr(755,root,root) %{_libdir}/libxalanMsg.so
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/xalanc
 %attr(755,root,root) %{_libdir}/libxalan-c.so
+%attr(755,root,root) %{_libdir}/libxalanMsg.so
+%{_includedir}/xalanc
 
 %files docs
 %defattr(644,root,root,755)
