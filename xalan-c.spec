@@ -1,7 +1,7 @@
 #
 %define		_ver	%(echo %{version} | tr . _)
 Summary:	XML parser
-Summary(pl):	Analizator sk³adniowy XML-a
+Summary(pl.UTF-8):   Analizator skÅ‚adniowy XML-a
 Name:		xalan-c
 Version:	1.10.0
 Release:	0.3
@@ -23,34 +23,34 @@ Apache Xalan Project is a collaborative software development project
 dedicated to providing robust, full-featured, commercial-quality, and
 freely available XSLT support on a wide variety of platforms.
 
-%description -l pl
-Projekt Apache Xalan to wspólny projekt stworzenia oprogramowania
-maj±cego zapewnic potê¿n±, w pe³ni funkcjonaln±, maj±c± komercyjn±
-jako¶æ i jednocze¶nie wolnodostêpn± obs³ugê XSLT na szerokim zakresie
+%description -l pl.UTF-8
+Projekt Apache Xalan to wspÃ³lny projekt stworzenia oprogramowania
+majÄ…cego zapewnic potÄ™Å¼nÄ…, w peÅ‚ni funkcjonalnÄ…, majÄ…cÄ… komercyjnÄ…
+jakoÅ›Ä‡ i jednoczeÅ›nie wolnodostÄ™pnÄ… obsÅ‚ugÄ™ XSLT na szerokim zakresie
 platform.
 
 %package devel
 Summary:	xalan-c header files
-Summary(pl):	Pliki nag³ówkowe xalan-c
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe xalan-c
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 xalan-c header files.
 
-%description devel -l pl
-Pliki nag³ówkowe xalan-c.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe xalan-c.
 
 %package docs
 Summary:	Documentation for xalan-c
-Summary(pl):	Dokumentacja xlan-c
+Summary(pl.UTF-8):   Dokumentacja xlan-c
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description docs
 Documentation for xalan-c.
 
-%description docs -l pl
+%description docs -l pl.UTF-8
 Dokumentacja xalan-c.
 
 %prep
