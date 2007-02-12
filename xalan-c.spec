@@ -1,7 +1,7 @@
 #
 %define		_ver	%(echo %{version} | tr . _)
 Summary:	XML parser
-Summary(pl.UTF-8):   Analizator składniowy XML-a
+Summary(pl.UTF-8):	Analizator składniowy XML-a
 Name:		xalan-c
 Version:	1.10.0
 Release:	0.3
@@ -31,7 +31,7 @@ platform.
 
 %package devel
 Summary:	xalan-c header files
-Summary(pl.UTF-8):   Pliki nagłówkowe xalan-c
+Summary(pl.UTF-8):	Pliki nagłówkowe xalan-c
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -43,7 +43,7 @@ Pliki nagłówkowe xalan-c.
 
 %package docs
 Summary:	Documentation for xalan-c
-Summary(pl.UTF-8):   Dokumentacja xlan-c
+Summary(pl.UTF-8):	Dokumentacja xlan-c
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
