@@ -58,6 +58,11 @@ Dokumentacja xalan-c.
 %patch0 -p1
 %patch1 -p1
 
+%ifarch %{x8664}
+sed -i s#/lib/icu/Makefile.inc#/lib64/icu/Makefile.inc#	\
+    c/src/xalanc/Utils/Makefile.in
+%endif
+
 rm -rf c/{xdocs,samples}/CVS
 
 %build
@@ -95,6 +100,10 @@ export ICUROOT=/usr
 
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
+
+%ifarch %{x8664}
+mv $RPM_BUILD_ROOT/usr/lib/* $RPM_BUILD_ROOT%{_libdir}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
