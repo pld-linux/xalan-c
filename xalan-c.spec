@@ -1,4 +1,3 @@
-#
 %define		_ver	%(echo %{version} | tr . _)
 Summary:	XML parser
 Summary(pl.UTF-8):	Analizator składniowy XML-a
@@ -58,9 +57,9 @@ Dokumentacja xalan-c.
 %patch0 -p1
 %patch1 -p1
 
-%ifarch %{x8664}
-sed -i s#/lib/icu/Makefile.inc#/lib64/icu/Makefile.inc#	\
-    c/src/xalanc/Utils/Makefile.in
+%if "%{_lib}" != "lib"
+sed -i s#/lib/icu/Makefile.inc#/%{_lib}/icu/Makefile.inc# \
+	c/src/xalanc/Utils/Makefile.in
 %endif
 
 rm -rf c/{xdocs,samples}/CVS
@@ -73,11 +72,11 @@ export ICUROOT=/usr
 export XALAN_USE_ICU=true
 
 ./runConfigure \
-	-P /usr \
+	-P %{_prefix} \
 	-p linux \
 	-c "%{__cc}" \
 	-x "%{__cxx}" \
-%ifarch %{x8664}
+%ifarch %{x8664} alpha ppc64 s390x sparc64
 	-b 64 \
 %else
 	-b 32 \
@@ -101,8 +100,8 @@ export ICUROOT=/usr
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
 
-%ifarch %{x8664}
-mv $RPM_BUILD_ROOT/usr/lib/* $RPM_BUILD_ROOT%{_libdir}
+%if "%{_lib}" != "lib"
+mv $RPM_BUILD_ROOT%{_prefix}/lib/* $RPM_BUILD_ROOT%{_libdir}
 %endif
 
 %clean
