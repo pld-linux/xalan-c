@@ -3,7 +3,7 @@ Summary:	XML parser
 Summary(pl.UTF-8):	Analizator składniowy XML-a
 Name:		xalan-c
 Version:	1.10.0
-Release:	1
+Release:	2
 License:	Apache License, Version 2.0
 Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
