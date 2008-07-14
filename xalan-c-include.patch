@@ -1,0 +1,10 @@
+--- xml-xalan/c/src/xalanc/Include/PlatformDefinitions.hpp.~1.12.~	2005-04-25 21:52:01.000000000 +0200
++++ xml-xalan/c/src/xalanc/Include/PlatformDefinitions.hpp	2008-07-14 19:48:52.000000000 +0200
+@@ -109,6 +109,7 @@
+ 
+ 
+ #include <cstddef>
++#include <cstring>
+ 
+ 
+ 

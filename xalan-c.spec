@@ -3,13 +3,14 @@ Summary:	XML parser
 Summary(pl.UTF-8):	Analizator składniowy XML-a
 Name:		xalan-c
 Version:	1.10.0
-Release:	3
+Release:	4
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
 # Source0-md5:	0a3fbb535885531cc544b07a2060bfb1
 Patch0:		%{name}-getopt.patch
 Patch1:		%{name}-soname.patch
+Patch2:		%{name}-include.patch
 URL:		http://xalan.apache.org/
 BuildRequires:	icu
 BuildRequires:	libicu-devel
@@ -56,6 +57,7 @@ Dokumentacja xalan-c.
 %setup -q -n xml-xalan
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %if "%{_lib}" != "lib"
 sed -i s#/lib/icu/Makefile.inc#/%{_lib}/icu/Makefile.inc# \
