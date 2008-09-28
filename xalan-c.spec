@@ -48,7 +48,7 @@ Pliki nagłówkowe xalan-c.
 %package docs
 Summary:	Documentation for xalan-c
 Summary(pl.UTF-8):	Dokumentacja xlan-c
-Group:		Development/Libraries
+Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
 %description docs
@@ -60,7 +60,7 @@ Dokumentacja xalan-c.
 %package examples
 Summary:	xalan-c examples
 Summary(pl.UTF-8):	Przykłady dla xalan-c
-Group:		Development/Libraries
+Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
 %description examples
@@ -120,8 +120,8 @@ install -d $RPM_BUILD_ROOT%{_includedir}
 install -d $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
-cp -a samples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-cp -a xdocs $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
+cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -a xdocs/* $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
 
 %if "%{_lib}" != "lib"
 mv $RPM_BUILD_ROOT%{_prefix}/lib/* $RPM_BUILD_ROOT%{_libdir}
