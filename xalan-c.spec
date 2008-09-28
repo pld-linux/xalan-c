@@ -3,7 +3,7 @@ Summary:	C++ xslt library
 Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
 Version:	1.10.0
-Release:	4
+Release:	5
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
 Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
@@ -85,8 +85,8 @@ find c/{xdocs,samples} -name CVS | xargs rm -rf
 %build
 cd c
 export XALANCROOT=$(pwd)
-export XERCESROOT=/usr
-export ICUROOT=/usr
+export XERCESROOT=%{_prefix}
+export ICUROOT=%{_prefix}
 export XALAN_USE_ICU=true
 
 ./runConfigure \
@@ -109,8 +109,8 @@ export XALAN_USE_ICU=true
 rm -rf $RPM_BUILD_ROOT
 cd c
 export XALANCROOT=$(pwd)
-export XERCESROOT=/usr
-export ICUROOT=/usr
+export XERCESROOT=%{_prefix}
+export ICUROOT=%{_prefix}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -140,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.110
 %attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.110
-%doc commits.xml KEYS NOTICE
+%doc c/commits.xml c/KEYS c/NOTICE
 
 %files devel
 %defattr(644,root,root,755)
