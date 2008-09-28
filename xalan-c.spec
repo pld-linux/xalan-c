@@ -1,6 +1,6 @@
 %define		_ver	%(echo %{version} | tr . _)
-Summary:	XML parser
-Summary(pl.UTF-8):	Analizator składniowy XML-a
+Summary:	C++ xslt library
+Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
 Version:	1.10.0
 Release:	4
@@ -23,11 +23,15 @@ Apache Xalan Project is a collaborative software development project
 dedicated to providing robust, full-featured, commercial-quality, and
 freely available XSLT support on a wide variety of platforms.
 
+This package contains C++ implementation of Xalan.
+
 %description -l pl.UTF-8
 Projekt Apache Xalan to wspólny projekt stworzenia oprogramowania
 mającego zapewnic potężną, w pełni funkcjonalną, mającą komercyjną
 jakość i jednocześnie wolnodostępną obsługę XSLT na szerokim zakresie
 platform.
+
+Ten pakiet zawiera bibliotekę Xalan dla języka C++.
 
 %package devel
 Summary:	xalan-c header files
@@ -134,6 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/Xalan
 %attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.110
+%attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.110
+%doc commits.xml KEYS NOTICE
 
 %files devel
 %defattr(644,root,root,755)
