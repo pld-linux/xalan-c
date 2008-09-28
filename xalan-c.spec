@@ -76,7 +76,7 @@ sed -i s#/lib/icu/Makefile.inc#/%{_lib}/icu/Makefile.inc# \
 	c/src/xalanc/Utils/Makefile.in
 %endif
 
-rm -rf c/{xdocs,samples}/CVS
+find c/{xdocs,samples} -name CVS | xargs rm -rf
 
 %build
 cd c
@@ -113,9 +113,11 @@ export ICUROOT=/usr
 
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
+install -d $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 cp -a samples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -a xdocs $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
 
 %if "%{_lib}" != "lib"
 mv $RPM_BUILD_ROOT%{_prefix}/lib/* $RPM_BUILD_ROOT%{_libdir}
@@ -141,7 +143,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files docs
 %defattr(644,root,root,755)
-%doc c/xdocs
+%{_docdir}/%{name}-docs-%{version}
 
 %files examples
 %defattr(644,root,root,755)
