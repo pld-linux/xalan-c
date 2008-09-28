@@ -53,6 +53,18 @@ Documentation for xalan-c.
 %description docs -l pl.UTF-8
 Dokumentacja xalan-c.
 
+%package examples
+Summary:	xalan-c examples
+Summary(pl.UTF-8):	Przykłady dla xalan-c
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description examples
+xalan-c examples.
+
+%description devel -l pl.UTF-8
+Przykłady dla xalan-c.
+
 %prep
 %setup -q -n xml-xalan
 %patch0 -p1
@@ -101,6 +113,9 @@ export ICUROOT=/usr
 
 install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+
+cp -a samples $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %if "%{_lib}" != "lib"
 mv $RPM_BUILD_ROOT%{_prefix}/lib/* $RPM_BUILD_ROOT%{_libdir}
@@ -126,4 +141,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files docs
 %defattr(644,root,root,755)
-%doc c/xdocs c/samples
+%doc c/xdocs
+
+%files examples
+%defattr(644,root,root,755)
+%{_examplesdir}/%{name}-%{version}
