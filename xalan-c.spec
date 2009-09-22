@@ -1,19 +1,20 @@
-%define		_ver	%(echo %{version} | tr . _)
+%define		ver	%(echo %{version} | tr . _)
 Summary:	C++ xslt library
 Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
 Version:	1.10.0
-Release:	5
+Release:	6
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
-Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{_ver}-src.tar.gz
+Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{ver}-src.tar.gz
 # Source0-md5:	0a3fbb535885531cc544b07a2060bfb1
 Patch0:		%{name}-getopt.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-include.patch
-URL:		http://xalan.apache.org/
+Patch3:		icu-4.2.patch
+URL:		http://xml.apache.org/xalan-c/
 BuildRequires:	icu
-BuildRequires:	libicu-devel
+BuildRequires:	libicu-devel >= 4.2
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -70,24 +71,29 @@ xalan-c examples.
 Przykłady dla xalan-c.
 
 %prep
-%setup -q -n xml-xalan
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%setup -qc
+mv xml-xalan/c/* .
+%patch0 -p2
+%patch1 -p2
+%patch2 -p2
+%patch3 -p1
 
 %if "%{_lib}" != "lib"
-sed -i s#/lib/icu/Makefile.inc#/%{_lib}/icu/Makefile.inc# \
-	c/src/xalanc/Utils/Makefile.in
+sed -i -e 's#/lib/icu/pkgdata.inc#/%{_lib}/icu/pkgdata.inc#' \
+	src/xalanc/Utils/Makefile.in
 %endif
 
-find c/{xdocs,samples} -name CVS | xargs rm -rf
+find xdocs samples -name CVS | xargs rm -rf
 
 %build
-cd c
+# create env.sh for easier debug from console
+cat << EOF > env.sh
 export XALANCROOT=$(pwd)
 export XERCESROOT=%{_prefix}
 export ICUROOT=%{_prefix}
-export XALAN_USE_ICU=true
+EOF
+
+. ./env.sh
 
 ./runConfigure \
 	-P %{_prefix} \
@@ -102,15 +108,15 @@ export XALAN_USE_ICU=true
 	-t icu \
 	-m icu
 
-# tries to link testXSLT before libxalan-c.so symlink is created
-%{__make} -j1
+# force 1 jobserver: tries to link testXSLT before libxalan-c.so symlink is created.
+# having XALAN_USE_ICU set on install will copy libicu libs to xalan install
+# root, so set it on build only.
+%{__make} -j1 \
+	XALAN_USE_ICU=true
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd c
-export XALANCROOT=$(pwd)
-export XERCESROOT=%{_prefix}
-export ICUROOT=%{_prefix}
+. ./env.sh
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -135,12 +141,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc commits.xml KEYS NOTICE
 %attr(755,root,root) %{_bindir}/Xalan
 %attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.110
 %attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.110
-%doc c/commits.xml c/KEYS c/NOTICE
 
 %files devel
 %defattr(644,root,root,755)
