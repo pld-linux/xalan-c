@@ -1,20 +1,18 @@
-%define		ver	%(echo %{version} | tr . _)
+%define	snap	20101114
 Summary:	C++ xslt library
 Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
-Version:	1.10.0
-Release:	8
+Version:	1.11.0
+# snap due to http://article.gmane.org/gmane.text.xml.xalan.c%2B%2B.user/3900
+Release:	0.%{snap}.1
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
-Source0:	http://www.apache.org/dist/xml/xalan-c/Xalan-C_%{ver}-src.tar.gz
-# Source0-md5:	0a3fbb535885531cc544b07a2060bfb1
-Patch0:		%{name}-getopt.patch
+# http://svn.apache.org/repos/asf/xerces/c/trunk/
+Source0:	%{name}-%{snap}.tar.bz2
+# Source0-md5:	ccf7777cfb2d48652ea2e929de65a907
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-include.patch
-Patch3:		icu-4.2.patch
 URL:		http://xml.apache.org/xalan-c/
-BuildRequires:	icu
-BuildRequires:	libicu-devel >= 4.2
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 2.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -71,17 +69,11 @@ xalan-c examples.
 Przykłady dla xalan-c.
 
 %prep
-%setup -qc
-mv xml-xalan/c/* .
-%patch0 -p2
+%setup -q -n %{name}
 %patch1 -p2
 %patch2 -p2
-%patch3 -p1
 
-%if "%{_lib}" != "lib"
-sed -i -e 's#/lib/icu/pkgdata.inc#/%{_lib}/icu/pkgdata.inc#' \
-	src/xalanc/Utils/Makefile.in
-%endif
+sed -i -e 's#debugflag=".*";#debugflag="%{rpmcflags} %{rpmcppflags}";#g' runConfigure
 
 find xdocs samples -name CVS | xargs rm -rf
 
@@ -96,6 +88,7 @@ EOF
 . ./env.sh
 
 ./runConfigure \
+	-C "--libdir=%{_libdir}" \
 	-P %{_prefix} \
 	-p linux \
 	-c "%{__cc}" \
@@ -105,20 +98,16 @@ EOF
 %else
 	-b 32 \
 %endif
-	-t icu \
-	-m icu
+	-t default \
+	-m inmem
 
-# force 1 jobserver: tries to link testXSLT before libxalan-c.so symlink is created.
-# having XALAN_USE_ICU set on install will copy libicu libs to xalan install
-# root, so set it on build only.
-%{__make} -j1 \
-	XALAN_USE_ICU=true
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
 . ./env.sh
 
-%{__make} install \
+%{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_libdir}
@@ -128,10 +117,6 @@ install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 cp -a xdocs/* $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
-
-%if "%{_lib}" != "lib"
-mv $RPM_BUILD_ROOT%{_prefix}/lib/* $RPM_BUILD_ROOT%{_libdir}
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -145,8 +130,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/Xalan
 %attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.110
-%attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.110
+%attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.111
+%attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.111
 
 %files devel
 %defattr(644,root,root,755)
