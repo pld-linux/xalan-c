@@ -65,7 +65,7 @@ Requires:	%{name} = %{version}-%{release}
 %description examples
 xalan-c examples.
 
-%description devel -l pl.UTF-8
+%description examples -l pl.UTF-8
 Przykłady dla xalan-c.
 
 %prep
