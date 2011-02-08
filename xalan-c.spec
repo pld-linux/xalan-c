@@ -4,7 +4,7 @@ Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
 Version:	1.11.0
 # snap due to http://article.gmane.org/gmane.text.xml.xalan.c%2B%2B.user/3900
-Release:	0.%{snap}.1
+Release:	0.%{snap}.2
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
 # http://svn.apache.org/repos/asf/xerces/c/trunk/
@@ -76,6 +76,9 @@ Przykłady dla xalan-c.
 sed -i -e 's#debugflag=".*";#debugflag="%{rpmcflags} %{rpmcppflags}";#g' runConfigure
 
 find xdocs samples -name CVS | xargs rm -rf
+
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %build
 # create env.sh for easier debug from console
