@@ -4,7 +4,7 @@ Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
 Version:	1.11.0
 # snap due to http://article.gmane.org/gmane.text.xml.xalan.c%2B%2B.user/3900
-Release:	0.%{snap}.2
+Release:	0.%{snap}.3
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
 # http://svn.apache.org/repos/asf/xerces/c/trunk/
