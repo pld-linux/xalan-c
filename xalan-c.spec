@@ -1,5 +1,5 @@
 %define	snap	20101114
-%define		rel	4
+%define		rel	5
 Summary:	C++ xslt library
 Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
