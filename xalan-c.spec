@@ -1,21 +1,16 @@
-%define	snap	20101114
-%define		rel	5
 Summary:	C++ xslt library
 Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
 Version:	1.11.0
-# snap due to http://article.gmane.org/gmane.text.xml.xalan.c%2B%2B.user/3900
-Release:	0.%{snap}.%{rel}
+Release:	1
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
-# http://svn.apache.org/repos/asf/xerces/c/trunk/
-Source0:	%{name}-%{snap}.tar.bz2
-# Source0-md5:	ccf7777cfb2d48652ea2e929de65a907
+Source0:	http://www.apache.org/dist/xalan/xalan-c/sources/xalan_c-1.11-src.tar.gz
+# Source0-md5:	9227d3e7ab375da3c643934b33a585b8
 Patch1:		%{name}-soname.patch
-Patch2:		%{name}-include.patch
-URL:		http://xml.apache.org/xalan-c/
+URL:		https://xalan.apache.org/
 BuildRequires:	util-linux
-BuildRequires:	xerces-c-devel >= 2.7.0
+BuildRequires:	xerces-c-devel >= 3.1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,22 +65,20 @@ xalan-c examples.
 Przykłady dla xalan-c.
 
 %prep
-%setup -q -n %{name}
-%patch1 -p2
-%patch2 -p2
+%setup -q -n xalan-c-1.11
+%patch1 -p1
 
-sed -i -e 's#debugflag=".*";#debugflag="%{rpmcflags} %{rpmcppflags}";#g' runConfigure
-
-find xdocs samples -name CVS | xargs rm -rf
+sed -i -e 's#debugflag=".*";#debugflag="%{rpmcflags} %{rpmcppflags}";#' c/runConfigure
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %build
+cd c
 # create env.sh for easier debug from console
 cat << EOF > env.sh
 export XALANCROOT=$(pwd)
-export XERCESROOT=%{_prefix}
+export XERCESCROOT=%{_prefix}
 export ICUROOT=%{_prefix}
 EOF
 
@@ -97,7 +90,7 @@ EOF
 	-p linux \
 	-c "%{__cc}" \
 	-x "%{__cxx}" \
-%ifarch %{x8664} alpha ppc64 s390x sparc64
+%ifarch %{x8664} aarch64 alpha ppc64 s390x sparc64
 	-b 64 \
 %else
 	-b 32 \
@@ -109,6 +102,9 @@ EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+cd c
+
 . ./env.sh
 
 %{__make} -j1 install \
@@ -130,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc commits.xml KEYS NOTICE
+%doc c/{KEYS,NOTICE,README}
 %attr(755,root,root) %{_bindir}/Xalan
 %attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
