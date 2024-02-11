@@ -1,14 +1,17 @@
 Summary:	C++ xslt library
 Summary(pl.UTF-8):	Biblioteka xslt dla C++
 Name:		xalan-c
-Version:	1.11.0
+Version:	1.12
 Release:	1
 License:	Apache v2.0
 Group:		Applications/Publishing/XML
-Source0:	http://www.apache.org/dist/xalan/xalan-c/sources/xalan_c-1.11-src.tar.gz
-# Source0-md5:	9227d3e7ab375da3c643934b33a585b8
-Patch1:		%{name}-soname.patch
+Source0:	https://downloads.apache.org/xalan/xalan-c/sources/xalan_c-%{version}.tar.gz
+# Source0-md5:	fa4fd34a03ae389b26166c5455b90768
 URL:		https://xalan.apache.org/
+BuildRequires:	cmake >= 3.2
+BuildRequires:	doxygen
+BuildRequires:	libicu-devel
+BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 3.1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -65,58 +68,26 @@ xalan-c examples.
 Przykłady dla xalan-c.
 
 %prep
-%setup -q -n xalan-c-1.11
-%patch1 -p1
-
-sed -i -e 's#debugflag=".*";#debugflag="%{rpmcflags} %{rpmcppflags}";#' c/runConfigure
-
-# cleanup backups after patching
-find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+%setup -q -n xalan_c-%{version}
 
 %build
-cd c
-# create env.sh for easier debug from console
-cat << EOF > env.sh
-export XALANCROOT=$(pwd)
-export XERCESCROOT=%{_prefix}
-export ICUROOT=%{_prefix}
-EOF
+install -d build
+cd build
+%cmake ..
 
-. ./env.sh
-
-./runConfigure \
-	-C "--libdir=%{_libdir}" \
-	-P %{_prefix} \
-	-p linux \
-	-c "%{__cc}" \
-	-x "%{__cxx}" \
-%ifarch %{x8664} aarch64 alpha ppc64 s390x sparc64
-	-b 64 \
-%else
-	-b 32 \
-%endif
-	-t default \
-	-m inmem
-
-%{__make} -j1
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-cd c
-
-. ./env.sh
-
-%{__make} -j1 install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_libdir}
-install -d $RPM_BUILD_ROOT%{_includedir}
-install -d $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
-install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+# packaged as %doc
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/api
 
-cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-cp -a xdocs/* $RPM_BUILD_ROOT%{_docdir}/%{name}-docs-%{version}
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -pr samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -126,22 +97,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc c/{KEYS,NOTICE,README}
+%doc KEYS NOTICE README.md readme.html
 %attr(755,root,root) %{_bindir}/Xalan
 %attr(755,root,root) %{_libdir}/libxalan-c.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.112
 %attr(755,root,root) %{_libdir}/libxalanMsg.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libxalan-c.so.111
-%attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.111
+%attr(755,root,root) %ghost %{_libdir}/libxalanMsg.so.112
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libxalan-c.so
 %attr(755,root,root) %{_libdir}/libxalanMsg.so
 %{_includedir}/xalanc
+%{_pkgconfigdir}/xalan-c.pc
+%{_libdir}/cmake/XalanC
 
 %files docs
 %defattr(644,root,root,755)
-%{_docdir}/%{name}-docs-%{version}
+%doc build/docs/doxygen/api/{*.css,*.html,*.js,*.png,*.svg}
 
 %files examples
 %defattr(644,root,root,755)
