@@ -7,11 +7,12 @@ License:	Apache v2.0
 Group:		Applications/Publishing/XML
 Source0:	https://downloads.apache.org/xalan/xalan-c/sources/xalan_c-%{version}.tar.gz
 # Source0-md5:	fa4fd34a03ae389b26166c5455b90768
+Patch0:		cxx17.patch
 URL:		https://xalan.apache.org/
 BuildRequires:	cmake >= 3.2
 BuildRequires:	doxygen
 BuildRequires:	libicu-devel
-BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 3.1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -69,6 +70,7 @@ Przykłady dla xalan-c.
 
 %prep
 %setup -q -n xalan_c-%{version}
+%patch -P0 -p1
 
 %build
 install -d build
