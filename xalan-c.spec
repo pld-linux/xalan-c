@@ -13,6 +13,7 @@ BuildRequires:	cmake >= 3.2
 BuildRequires:	doxygen
 BuildRequires:	libicu-devel
 BuildRequires:	libstdc++-devel >= 6:8
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 3.1.1
@@ -62,6 +63,7 @@ Summary:	xalan-c examples
 Summary(pl.UTF-8):	Przykłady dla xalan-c
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
+BuildArch:	noarch
 
 %description examples
 xalan-c examples.
