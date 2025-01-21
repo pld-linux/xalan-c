@@ -13,6 +13,7 @@ BuildRequires:	cmake >= 3.2
 BuildRequires:	doxygen
 BuildRequires:	libicu-devel
 BuildRequires:	libstdc++-devel >= 6:8
+BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	util-linux
 BuildRequires:	xerces-c-devel >= 3.1.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
